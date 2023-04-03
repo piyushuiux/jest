@@ -10,9 +10,7 @@ import ReactMarkdown from 'react-markdown';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
 
-const renderers = {
-  a: ({node: _node, ...props}) => <Link {...props} />,
-};
+const renderers = {a: Link};
 
 /*
 Handle this case:
@@ -22,10 +20,8 @@ Handle this case:
  */
 function getMarkdown(children) {
   if (children?.type === Translate) {
-    return translate({
-      id: children.props.id,
-      message: children?.props?.children,
-    });
+    const {id, children: message} = children.props;
+    return translate({id: id || message, message});
   } else {
     return children;
   }
